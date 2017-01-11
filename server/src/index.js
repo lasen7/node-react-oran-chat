@@ -9,7 +9,10 @@ import mongoose from 'mongoose';
 
 import api from './routes';
 
+import chatService from './services/chatService';
+
 const app = express();
+const http = require('http').Server(app);
 const port = process.env.PORT || 3000;
 
 // setup middleware
@@ -41,6 +44,9 @@ db.once('open', () => {
 });
 mongoose.connect(process.env.DB_MONGO);
 
-app.listen(port, () => {
+http.listen(port, () => {
   console.log('Server start port on ', port);
 });
+
+// setup socket.io
+chatService(http);
