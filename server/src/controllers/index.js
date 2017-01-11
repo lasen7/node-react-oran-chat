@@ -1,5 +1,5 @@
-import * as api from './api';
+import * as openChat from './openChat';
 
 export {
-  api
+  openChat
 };

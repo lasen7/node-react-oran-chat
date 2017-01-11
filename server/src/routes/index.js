@@ -1,8 +1,8 @@
 import express from 'express';
-import api from './api';
+import openChat from './openChat';
 
 const router = express.Router();
 
-router.use('/', api);
+router.use('/openChat', openChat);
 
 export default router;
