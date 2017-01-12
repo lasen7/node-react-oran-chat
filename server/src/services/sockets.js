@@ -1,25 +1,26 @@
-import * as ranHandler from './ranChatHandler';
+import * as ranChatHandler from './ranChatHandler';
+import * as openChatHandler from './openChatHandler';
 
-// connect
-// disconnect
-// manage sockets
-
-let sockets = {};
+// for ranChat
 export let rooms = {};
 
 export const connect = (io, socket) => {
-  // store connection in sockets
-  sockets[socket.id] = socket;
+  console.log('======== Connection ========: ', socket.id);
 
   // register socket event in handler
-  ranHandler.joinRandom(io, socket);
-  ranHandler.sendRandom(io, socket);
+  ranChatHandler.joinRandom(io, socket);
+  ranChatHandler.sendRandom(io, socket);
+  ranChatHandler.leaveRandom(io, socket);
 
-  console.log('======== Connection ========: ', socket.id);
+  openChatHandler.joinOpen(io, socket);
+  openChatHandler.sendOpen(io, socket);
+  openChatHandler.leaveOpen(io, socket);
 };
 
 export const disconnect = (socket) => {
   console.log('======== disconnect ========: ', socket.id);
-};
 
-export default sockets;
+  if (socket.roomId) {
+    delete rooms[socket.roomId];
+  }
+};

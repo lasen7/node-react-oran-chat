@@ -1,4 +1,4 @@
-import sockets, { rooms } from './sockets';
+import { rooms } from './sockets';
 import msgTypes from './msgTypes';
 
 /**
@@ -6,7 +6,7 @@ import msgTypes from './msgTypes';
  */
 export const joinRandom = (io, socket) => {
   socket.on(msgTypes.JOIN_RANDOM, data => {
-    console.log('======= Join room =========');
+    console.log('======= JOIN_RANDOM =========');
 
     let roomId = null;
 
@@ -32,6 +32,9 @@ export const joinRandom = (io, socket) => {
       rooms[roomId].user2 = data.username;
     }
 
+    // register roomId to socket
+    socket.roomId = roomId;
+
     socket.join(roomId);
 
     let msg = rooms[roomId];
@@ -48,8 +51,21 @@ export const joinRandom = (io, socket) => {
  */
 export const sendRandom = (io, socket) => {
   socket.on(msgTypes.SEND_RANDOM, data => {
-    console.log('======== send message ========');
+    console.log('======== SEND_RANDOM ========');
 
     io.emit(data.roomId).emit(msgTypes.RECEIVE_RANDOM, data);
+  });
+};
+
+/**
+ * data: { roomId: 'uuid', username: 'hspark' }
+ */
+export const leaveRandom = (io, socket) => {
+  socket.on(msgTypes.LEAVE_RANDOM, data => {
+    console.log('======== LEAVE_RANDOM ========');
+
+    socket.leave(data.roomId);
+
+    io.emit(data.roomId).emit(msgTypes.LEAVED_RANDOM, data);
   });
 };
