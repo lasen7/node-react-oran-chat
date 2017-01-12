@@ -1,0 +1,19 @@
+#write-form {
+  width: 100%;
+  height: 40px;
+  display: inherit;
+}
+
+#write-form > .fix-height{
+  height: 100%;
+}
+
+/*
+.writeWrapper {
+  width: 100%;
+  max-width: 50em;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}*/

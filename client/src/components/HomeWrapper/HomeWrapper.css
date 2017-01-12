@@ -1,0 +1,12 @@
+#bg {
+  background: url('../../assets/images/bg_login.jpg');
+  background-size: cover;
+  background-position: center;
+  height: 100vh;  
+}
+
+.HomeWrapper {
+  text-align: center;  
+  max-width: 30em;
+  padding-top: 8em;
+}

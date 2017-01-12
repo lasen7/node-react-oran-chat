@@ -1,43 +1,19 @@
 import React, { Component } from 'react';
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-
-import { UserList } from 'components';
-
-import * as userAction from 'actions/user';
+import { HomeWrapper } from 'components';
 
 class Home extends Component {
 
-  async componentDidMount() {
-    try {
-      await this.props.UserActions.getUsers();
-    } catch (e) {
-      return;
-    }
+  componentDidMount() {
   }
 
   render() {
     return (
       <div>
-        <UserList users={this.props.status.users} />
+        <HomeWrapper />
       </div>
     );
   }
 }
-
-Home = connect(state => {
-  return {
-    status: {
-      users: state.user.users.data
-    }
-  }
-}, dispatch => {
-  return {
-    UserActions: bindActionCreators({
-      getUsers: userAction.getUsers
-    }, dispatch)
-  }
-})(Home);
 
 export default Home;

@@ -1,0 +1,21 @@
+.header {
+  background-color: #00B5AD;
+  color: white;
+  font-size: 2rem;
+  padding: 1.2rem;
+  text-align: center;
+  font-weight: 600;
+  height: 50px;
+}
+
+#exit {
+  float: right;
+  cursor: pointer;
+  font-size: 3rem;
+  margin-top: -8px;
+}
+
+#exit:hover, #exit:active {
+  cursor: pointer;
+  color: indianred;
+}
