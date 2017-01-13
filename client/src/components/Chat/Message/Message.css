@@ -1,4 +1,23 @@
-.wrap {
+.message {
+  max-width: 60em;
   height: calc(100% - 90px);
-  background: red;
+  overflow-y: auto;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);  
+  border: 1px solid rgba(0,0,0,0.16);
+}
+
+.message-list {
+  list-style: none;
+  padding: 0;
+  margin: 1.5em 0;
+}
+
+.message-list > li {
+  font-size: 1.25em;
+  padding: 5px 10px;
+  display: block;
+}
+
+.message-list li:nth-child(odd) {
+  background: #e0e0e0;
 }
