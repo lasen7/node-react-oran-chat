@@ -1,59 +1,23 @@
 import ActionTypes from 'actions/ActionTypes';
-import * as rs from 'utils/requestStatus';
-
-const users = {
-  data: []
-};
+//import * as rs from 'utils/requestStatus';
 
 const initialState = {
-  users: {
-    ...users
-  },
-  requests: {
-    users: {
-      ...rs.request
-    }
-  }
+  username: ''
 };
 
 export default function user(state = initialState, action) {
   const payload = action.payload;
 
   switch (action.type) {
-    case ActionTypes.GET_USERS + '_PENDING':
+    case ActionTypes.GET_USER:
       return {
         ...state,
-        requests: {
-          ...state.requests,
-          users: {
-            ...rs.pending
-          }
-        }
+        username: payload
       }
-    case ActionTypes.GET_USERS + '_FULFILLED':
+    case ActionTypes.SET_USER:
       return {
         ...state,
-        users: {
-          ...state.users,
-          data: payload.data
-        },
-        requests: {
-          ...state.requests,
-          users: {
-            ...rs.fulfilled
-          }
-        }
-      }
-    case ActionTypes.GET_USERS + '_REJECTED':
-      return {
-        ...state,
-        requests: {
-          ...state.requests,
-          users: {
-            ...rs.rejected,
-            error: payload.data.error
-          }
-        }
+        username: payload
       }
     default:
       return state;

@@ -4,7 +4,7 @@ import { Header, Message, Write } from 'components';
 
 import './Wrapper.css';
 
-const Wrapper = () => {
+const Wrapper = ({isRanChat, socket}) => {
   return (
     <div id="chatWrapper">
       <Header />

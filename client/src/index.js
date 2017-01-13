@@ -17,8 +17,8 @@ ReactDOM.render(
     <Router history={browserHistory}>
       <Route path="/" component={App}>
         <IndexRoute component={Home} />
-        <Route path="/lobby" component={Lobby} />
-        <Route path="/chat" component={Chat} />
+        <Route path="/lobby/:ran" component={Lobby} />
+        <Route path="/chat/:ran" component={Chat} />
         <Route path="*" component={NotFound} />
       </Route>
     </Router>
