@@ -40,7 +40,7 @@ export const joinRandom = (io, socket) => {
     let msg = rooms[roomId];
     msg.roomId = roomId;
 
-    io.emit(roomId).emit(msgTypes.JOINED_RANDOM, msg);
+    io.in(roomId).emit(msgTypes.JOINED_RANDOM, msg);
 
     console.log('rooms: ', rooms);
   });
@@ -51,9 +51,9 @@ export const joinRandom = (io, socket) => {
  */
 export const sendRandom = (io, socket) => {
   socket.on(msgTypes.SEND_RANDOM, data => {
-    console.log('======== SEND_RANDOM ========');
+    console.log('======== SEND_RANDOM ========', data);
 
-    io.emit(data.roomId).emit(msgTypes.RECEIVE_RANDOM, data);
+    io.in(data.roomId).emit(msgTypes.RECEIVE_RANDOM, data);
   });
 };
 
@@ -62,10 +62,10 @@ export const sendRandom = (io, socket) => {
  */
 export const leaveRandom = (io, socket) => {
   socket.on(msgTypes.LEAVE_RANDOM, data => {
-    console.log('======== LEAVE_RANDOM ========');
+    delete rooms[data.roomId];
 
-    socket.leave(data.roomId);
+    io.in(data.roomId).emit(msgTypes.LEAVED_RANDOM, data);
 
-    io.emit(data.roomId).emit(msgTypes.LEAVED_RANDOM, data);
+    console.log('======== LEAVE_RANDOM ========: ', rooms);
   });
 };
