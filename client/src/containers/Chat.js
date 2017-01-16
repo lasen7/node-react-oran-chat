@@ -2,16 +2,23 @@ import React, { Component } from 'react';
 
 import { Wrapper } from 'components';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import { browserHistory } from 'react-router';
+
 import io from 'socket.io-client';
 import msgTypes from 'services/msgTypes';
+
+import * as user from 'actions/user';
+import * as chat from 'actions/chat';
+
+import storage from 'utils/storage';
 
 // automatically connect
 const socket = io('http://localhost:3000');
 
 class Chat extends Component {
-  state = {
-    isRanChat: false
-  };
 
   isRanChatPath = () => {
     const {params} = this.props;
@@ -20,18 +27,87 @@ class Chat extends Component {
   }
 
   componentDidMount() {
+    // check username
     const isRanChat = this.isRanChatPath();
 
-    //socket.emit(msgTypes.JOIN_RANDOM, { username: });
+    const savedUsername = storage.get('username');
+
+    const username = this.props.UserActions.getUser(savedUsername).payload;
+
+    if (!username) {
+      browserHistory.push('/');
+      return;
+    }
+
+    if (isRanChat) {
+      /* 소켓 이벤트 */
+      socket.emit(msgTypes.JOIN_RANDOM, { username: username });
+
+      socket.on(msgTypes.JOINED_RANDOM, data => {
+        console.log('JOINED_RANDOM: ', data);
+
+        this.props.ChatActions.joinedRandom(data);
+      });
+
+      socket.on(msgTypes.RECEIVE_RANDOM, data => {
+        console.log('RECEIVE_RANDOM: ', data);
+
+        this.props.ChatActions.receivedRandom(data);
+      });
+
+      socket.on(msgTypes.LEAVED_RANDOM, data => {
+        console.log('LEAVED_RANDOM: ', data);
+
+        this.props.ChatActions.leavedRandom(data);
+      });      
+    }
+  }
+
+  handleSendRandom = (message) => {
+    const roomId = this.props.ranChat.roomId;
+    const username = this.props.username;
+
+    socket.emit(msgTypes.SEND_RANDOM, {
+      roomId,
+      username,
+      message
+    });
+  }
+
+  handleLogout = () => {
+    const roomId = this.props.ranChat.roomId;
+
+    socket.emit(msgTypes.LEAVE_RANDOM, {
+      roomId
+    });
   }
 
   render() {
     const isRanChat = this.isRanChatPath();
 
     return (
-      <Wrapper isRanChat={isRanChat} socket={socket} />
+      <Wrapper
+        username={this.props.username}
+        isRanChat={isRanChat}
+        ranChat={this.props.ranChat}
+        socket={socket}
+        onSendRandom={this.handleSendRandom}
+        onLogout={this.handleLogout}
+        />
     );
   }
 }
+
+Chat = connect(state => {
+  return {
+    username: state.user.username,
+    ranChat: state.chat.ranChat
+  }
+}, dispatch => {
+  return {
+    UserActions: bindActionCreators(user, dispatch),
+    ChatActions: bindActionCreators(chat, dispatch)
+  }
+})(Chat);
 
 export default Chat;

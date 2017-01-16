@@ -11,11 +11,15 @@
 #exit {
   float: right;
   cursor: pointer;
-  font-size: 3rem;
-  margin-top: -8px;
+  font-size: 2rem;
 }
 
 #exit:hover, #exit:active {
   cursor: pointer;
-  color: indianred;
+  color: #23527c;
+}
+
+.header-home {
+  float: left;
+  color: white;
 }
