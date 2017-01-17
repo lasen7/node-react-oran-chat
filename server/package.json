@@ -21,7 +21,8 @@
     "mongoose": "^4.7.6",
     "morgan": "^1.7.0",
     "schema-inspector": "^1.6.8",
-    "socket.io": "^1.7.2"
+    "socket.io": "^1.7.2",
+    "uuid": "^3.0.1"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",

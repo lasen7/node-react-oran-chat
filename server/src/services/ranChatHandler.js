@@ -1,6 +1,8 @@
 import { rooms } from './sockets';
 import msgTypes from './msgTypes';
 
+import uuidV1 from 'uuid/v1';
+
 /**
  * data: {username: 'hspark'}
  */
@@ -20,12 +22,13 @@ export const joinRandom = (io, socket) => {
 
     if (!roomId) {
       // If there is no room, add new room
-      rooms[socket.id] = {
+      let uuid = uuidV1();
+      rooms[uuid] = {
         count: 1,
         user1: data.username
       };
 
-      roomId = socket.id;
+      roomId = uuid;
     } else {
       // If there is room, increase count
       rooms[roomId].count = 2;
@@ -65,6 +68,8 @@ export const leaveRandom = (io, socket) => {
     delete rooms[data.roomId];
 
     io.in(data.roomId).emit(msgTypes.LEAVED_RANDOM, data);
+
+    socket.leave(data.roomId);
 
     console.log('======== LEAVE_RANDOM ========: ', rooms);
   });
