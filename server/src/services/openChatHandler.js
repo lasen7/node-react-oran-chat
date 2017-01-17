@@ -36,3 +36,11 @@ export const leaveOpen = (io, socket) => {
     io.emit(data.roomId).emit(msgTypes.LEAVED_OPEN, data);
   });
 };
+
+export const addChannel = (socket) => {
+  socket.on(msgTypes.ADD_CHANNEL, data => {
+    console.log('======== LEAVE_OPEN ========');
+
+    socket.broadcast.emit(msgTypes.ADDED_CHANNEL, data);
+  });
+};

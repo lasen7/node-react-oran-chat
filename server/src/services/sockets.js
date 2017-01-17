@@ -15,6 +15,7 @@ export const connect = (io, socket) => {
   openChatHandler.joinOpen(io, socket);
   openChatHandler.sendOpen(io, socket);
   openChatHandler.leaveOpen(io, socket);
+  openChatHandler.addChannel(socket);
 };
 
 export const disconnect = (socket) => {
