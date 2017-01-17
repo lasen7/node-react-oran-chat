@@ -12,20 +12,22 @@ export const leavedRandom = createAction(ActionTypes.LEAVED_RANDOM);
 
 export const cleanRandom = createAction(ActionTypes.CLEAN_RANDOM);
 
-export const getOpenList = () => {
+export const getChannel = () => {
   return {
-    type: ActionTypes.GET_OPEN_LIST,
+    type: ActionTypes.GET_CHANNEL,
     payload: {
-      promise: service.getOpenList()
+      promise: service.getChannel()
     }
   }
 };
 
-export const addOpenList = (title) => {
+export const addChannel = (title) => {
   return {
-    type: ActionTypes.ADD_OPEN_LIST,
+    type: ActionTypes.ADD_CHANNEL,
     payload: {
-      promise: service.addOpenList(title)
+      promise: service.addChannel(title)
     }
   }
 }
+
+export const addedChannel = createAction(ActionTypes.ADDED_CHANNEL);

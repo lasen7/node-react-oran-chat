@@ -12,6 +12,12 @@ class Fab extends Component {
     title: ''
   };
 
+  componentDidMount() {
+    $('#myModal').on('shown.bs.modal', e => {
+      this.inputTitle.focus();
+    });
+  }
+
   handleSubmit = () => {
     const {title} = this.state;
 
@@ -62,6 +68,7 @@ class Fab extends Component {
                   className="form-control"
                   placeholder="이름을 입력하세요"
                   name="title"
+                  ref={ref => { this.inputTitle = ref } }
                   value={this.state.title}
                   onChange={this.handleChange}
                   onKeyPress={this.handleKeyPress} />

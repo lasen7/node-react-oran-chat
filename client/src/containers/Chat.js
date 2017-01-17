@@ -1,3 +1,4 @@
+/* global io, socket */
 import React, { Component } from 'react';
 
 import { Wrapper } from 'components';
@@ -7,7 +8,7 @@ import { bindActionCreators } from 'redux';
 
 import { browserHistory } from 'react-router';
 
-import io from 'socket.io-client';
+// import io from 'socket.io-client';
 import msgTypes from 'services/msgTypes';
 
 import * as user from 'actions/user';
@@ -16,7 +17,7 @@ import * as chat from 'actions/chat';
 import storage from 'utils/storage';
 
 // automatically connect
-const socket = io('http://localhost:3000');
+// const socket = io('http://localhost:3000');
 
 class Chat extends Component {
 
@@ -27,6 +28,8 @@ class Chat extends Component {
   }
 
   componentDidMount() {
+    const {socket} = this.props;
+
     // check username
     const isRanChat = this.isRanChatPath();
 
@@ -59,6 +62,7 @@ class Chat extends Component {
   }
 
   handleSendRandom = (message) => {
+    const {socket} = this.props;
     const roomId = this.props.ranChat.roomId;
     const username = this.props.username;
 
@@ -70,6 +74,7 @@ class Chat extends Component {
   }
 
   handleLogout = (isRejoin = true) => {
+    const {socket} = this.props;
     const roomId = this.props.ranChat.roomId;
     const username = this.props.username;
 
@@ -87,6 +92,7 @@ class Chat extends Component {
   }
 
   render() {
+    const {socket} = this.props;
     const isRanChat = this.isRanChatPath();
 
     return (

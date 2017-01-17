@@ -1,13 +1,13 @@
 import request from 'utils/request';
 
-export const getOpenList = () => {
+export const getChannel = () => {
   return request({
     url: '/api/openchat',
     method: 'get'
   });
 };
 
-export const addOpenList = ({
+export const addChannel = ({
   title
 }) => {
   return request({

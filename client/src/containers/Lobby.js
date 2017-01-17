@@ -1,3 +1,5 @@
+/* global io, socket */
+
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
@@ -5,16 +7,32 @@ import { bindActionCreators } from 'redux';
 
 import * as chat from 'actions/chat';
 
+// import io from 'socket.io-client';
+import msgTypes from 'services/msgTypes';
+
 import { Tab, RanChat, OpenChatList } from 'components';
+
+// automatically connect
+// const socket = io('http://localhost:3000');
 
 class Lobby extends Component {
 
   async componentDidMount() {
-    await this.props.ChatActions.getOpenList();
+    const {socket} = this.props;
+
+    await this.props.ChatActions.getChannel();
+
+    socket.on(msgTypes.ADDED_CHANNEL, data => {
+      this.props.ChatActions.addedChannel(data);
+    });
   }
 
-  handleAddOpenList = async (title) => {
-    await this.props.ChatActions.addOpenList({ title });
+  handleAddChannel = async (title) => {
+    const {socket} = this.props;
+    
+    const result = await this.props.ChatActions.addChannel({ title });
+
+    socket.emit(msgTypes.ADD_CHANNEL, result.value.data);
   }
 
   render() {
@@ -25,7 +43,7 @@ class Lobby extends Component {
     return (
       <div>
         <Tab isRanChat={isRanChat} />
-        {isRanChat ? <RanChat /> : <OpenChatList channel={channel} onAddEvent={this.handleAddOpenList} />}
+        {isRanChat ? <RanChat /> : <OpenChatList channel={channel} onAddEvent={this.handleAddChannel} />}
       </div>
     );
   }

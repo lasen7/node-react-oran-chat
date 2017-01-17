@@ -69,7 +69,7 @@ export default function user(state = initialState, action) {
           messages: []
         }
       }
-    case ActionTypes.GET_OPEN_LIST + '_PENDING':
+    case ActionTypes.GET_CHANNEL + '_PENDING':
       return {
         ...state,
         requests: {
@@ -79,7 +79,7 @@ export default function user(state = initialState, action) {
           }
         }
       }
-    case ActionTypes.GET_OPEN_LIST + '_FULFILLED':
+    case ActionTypes.GET_CHANNEL + '_FULFILLED':
       return {
         ...state,
         openChat: {
@@ -93,7 +93,7 @@ export default function user(state = initialState, action) {
           }
         }
       }
-    case ActionTypes.GET_OPEN_LIST + '_REJECTED':
+    case ActionTypes.GET_CHANNEL + '_REJECTED':
       return {
         ...state,
         requests: {
@@ -104,7 +104,7 @@ export default function user(state = initialState, action) {
           }
         }
       }
-    case ActionTypes.ADD_OPEN_LIST + '_PENDING':
+    case ActionTypes.ADD_CHANNEL + '_PENDING':
       return {
         ...state,
         requests: {
@@ -114,7 +114,7 @@ export default function user(state = initialState, action) {
           }
         }
       }
-    case ActionTypes.ADD_OPEN_LIST + '_FULFILLED':
+    case ActionTypes.ADD_CHANNEL + '_FULFILLED':
       return {
         ...state,
         openChat: {
@@ -131,7 +131,7 @@ export default function user(state = initialState, action) {
           }
         }
       }
-    case ActionTypes.ADD_OPEN_LIST + '_REJECTED':
+    case ActionTypes.ADD_CHANNEL + '_REJECTED':
       return {
         ...state,
         requests: {
@@ -140,6 +140,17 @@ export default function user(state = initialState, action) {
             ...rs.rejected,
             error: payload
           }
+        }
+      }
+    case ActionTypes.ADDED_CHANNEL:
+      return {
+        ...state,
+        openChat: {
+          ...state.openChat,
+          list: [
+            ...state.openChat.list,
+            payload
+          ]
         }
       }
     default:
