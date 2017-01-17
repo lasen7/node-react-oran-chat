@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { Link } from 'react-router';
-
 import './Header.css';
 
 const Header = ({username, isRanChat, ranChat, onLogout}) => {

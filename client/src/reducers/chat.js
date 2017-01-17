@@ -1,4 +1,5 @@
 import ActionTypes from 'actions/ActionTypes';
+import * as rs from 'utils/requestStatus';
 
 const initialState = {
   ranChat: {
@@ -9,7 +10,15 @@ const initialState = {
     messages: []
   },
   openChat: {
-    roomId: ''
+    list: []
+  },
+  requests: {
+    openChatList: {
+      ...rs.request
+    },
+    openChatAdd: {
+      ...rs.request
+    }
   }
 };
 
@@ -58,6 +67,79 @@ export default function user(state = initialState, action) {
           user2: '',
           count: 0,
           messages: []
+        }
+      }
+    case ActionTypes.GET_OPEN_LIST + '_PENDING':
+      return {
+        ...state,
+        requests: {
+          ...state.requests,
+          openChatList: {
+            ...rs.pending
+          }
+        }
+      }
+    case ActionTypes.GET_OPEN_LIST + '_FULFILLED':
+      return {
+        ...state,
+        openChat: {
+          ...state.openChat,
+          list: payload.data
+        },
+        requests: {
+          ...state.requests,
+          openChatList: {
+            ...rs.fulfilled
+          }
+        }
+      }
+    case ActionTypes.GET_OPEN_LIST + '_REJECTED':
+      return {
+        ...state,
+        requests: {
+          ...state.requests,
+          openChatList: {
+            ...rs.rejected,
+            error: payload
+          }
+        }
+      }
+    case ActionTypes.ADD_OPEN_LIST + '_PENDING':
+      return {
+        ...state,
+        requests: {
+          ...state.requests,
+          openChatAdd: {
+            ...rs.pending
+          }
+        }
+      }
+    case ActionTypes.ADD_OPEN_LIST + '_FULFILLED':
+      return {
+        ...state,
+        openChat: {
+          ...state.openChat,
+          list: [
+            ...state.openChat.list,
+            payload.data
+          ]
+        },
+        requests: {
+          ...state.requests,
+          openChatAdd: {
+            ...rs.fulfilled
+          }
+        }
+      }
+    case ActionTypes.ADD_OPEN_LIST + '_REJECTED':
+      return {
+        ...state,
+        requests: {
+          ...state.requests,
+          openChatAdd: {
+            ...rs.rejected,
+            error: payload
+          }
         }
       }
     default:

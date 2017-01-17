@@ -1,13 +1,23 @@
 import React from 'react';
 
-import { OpenChatInfo } from 'components';
+import { OpenChatInfo, Fab } from 'components';
 
 import './OpenChatList.css';
 
-const OpenChatList = () => {
+const OpenChatList = ({channel, onAddEvent}) => {
+  const mapToChannel = channel.map((data, index) => {
+    return (
+      <OpenChatInfo
+        data={data}
+        key={data._id}
+        index={index} />
+    );
+  });
+
   return (
     <div className="container openChatList">
-      <OpenChatInfo />
+      {mapToChannel}
+      <Fab onAddEvent={onAddEvent} />
     </div>
   );
 };

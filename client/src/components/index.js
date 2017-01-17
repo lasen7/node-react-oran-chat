@@ -8,6 +8,7 @@ import Header from './Chat/Header/Header';
 import Write from './Chat/Write/Write';
 import Message from './Chat/Message/Message';
 import Wrapper from './Chat/Wrapper/Wrapper';
+import Fab from './Fab/Fab';
 
 export {
   Login,
@@ -19,5 +20,6 @@ export {
   Header,
   Write,
   Message,
-  Wrapper
+  Wrapper,
+  Fab
 };
