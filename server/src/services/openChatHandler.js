@@ -9,7 +9,7 @@ export const joinOpen = (io, socket) => {
 
     socket.join(data.roomId);
 
-    io.emit(data.roomId).emit(msgTypes.JOINED_OPEN, data);
+    io.in(data.roomId).emit(msgTypes.JOINED_OPEN, data);
   });
 };
 
@@ -20,7 +20,7 @@ export const sendOpen = (io, socket) => {
   socket.on(msgTypes.SEND_OPEN, data => {
     console.log('======== SEND_OPEN ========');
 
-    io.emit(data.roomId).emit(msgTypes.RECEIVE_OPEN, data);
+    io.in(data.roomId).emit(msgTypes.RECEIVE_OPEN, data);
   });
 };
 
@@ -29,11 +29,11 @@ export const sendOpen = (io, socket) => {
  */
 export const leaveOpen = (io, socket) => {
   socket.on(msgTypes.LEAVE_OPEN, data => {
-    console.log('======== LEAVE_OPEN ========');
+    console.log('======== LEAVE_OPEN ========');    
+
+    io.in(data.roomId).emit(msgTypes.LEAVED_OPEN, data);
 
     socket.leave(data.roomId);
-
-    io.emit(data.roomId).emit(msgTypes.LEAVED_OPEN, data);
   });
 };
 

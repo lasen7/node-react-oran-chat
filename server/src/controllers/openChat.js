@@ -16,6 +16,38 @@ export const getOpenChat = (req, res, next) => {
 };
 
 /**
+ * 오픈 채팅 정보 보기
+ * GET /api/openchat/:roomId
+ * Error:
+ *  1. Invalid Request
+ *  2. Not found data
+ */
+export const getOpenChatById = (req, res, next) => {
+  const result = valid.validateObjectId(req.params.roomId);
+  if (!result) {
+    return res.status(400).send({
+      msg: 'Invalid Request',
+      code: 1
+    });
+  }
+
+  OpenChat.getOpenChatById(req.params.roomId)
+    .then(result => {
+      if (!result) {
+        res.status(400).send({
+          msg: 'Not found data',
+          code: 2
+        });
+      } else {
+        res.send(result);
+      }
+    })
+    .catch(err => {
+      next(err);
+    });
+};
+
+/**
  * 오픈 채팅 만들기
  * POST /api/openchat
  * body: { title: 'room title' }

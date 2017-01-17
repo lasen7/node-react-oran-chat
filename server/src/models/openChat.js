@@ -18,6 +18,10 @@ OpenChat.statics.getOpenChat = function () {
   return this.find({}, { _id: 1, title: 1 }).exec();
 };
 
+OpenChat.statics.getOpenChatById = function (_id) {
+  return this.findOne({ _id }).exec();
+}
+
 OpenChat.statics.deleteOpenChat = function (_id) {
   return this.remove({ _id }).exec();
 }
