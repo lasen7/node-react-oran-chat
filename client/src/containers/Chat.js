@@ -69,7 +69,7 @@ class Chat extends Component {
     });
   }
 
-  handleLogout = () => {
+  handleLogout = (isRejoin = true) => {
     const roomId = this.props.ranChat.roomId;
     const username = this.props.username;
 
@@ -81,7 +81,9 @@ class Chat extends Component {
     // remove chat message and username
     this.props.ChatActions.cleanRandom();
 
-    socket.emit(msgTypes.JOIN_RANDOM, { username });
+    if (isRejoin) {
+      socket.emit(msgTypes.JOIN_RANDOM, { username });
+    }
   }
 
   render() {

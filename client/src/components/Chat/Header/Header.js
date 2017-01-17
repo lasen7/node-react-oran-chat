@@ -22,9 +22,9 @@ const Header = ({username, isRanChat, ranChat, onLogout}) => {
 
   return (
     <div className="header">
-      <Link to="/lobby/ran" className="header-home">
+      <a href="/lobby/ran" className="header-home" onClick={() => { onLogout(false) } }>
         <i className="icon icon-home"></i>
-      </Link>
+      </a>
       <span>{text}</span>
       <span id="exit">
         <i
