@@ -31,3 +31,18 @@ export const addChannel = (title) => {
 }
 
 export const addedChannel = createAction(ActionTypes.ADDED_CHANNEL);
+
+export const getChannelInfo = (roomId) => {
+  return {
+    type: ActionTypes.GET_CHANNEL_INFO,
+    payload: {
+      promise: service.getChannelInfo(roomId)
+    }
+  }
+};
+
+export const joinedOpen = createAction(ActionTypes.JOINED_OPEN);
+
+export const receivedOpen = createAction(ActionTypes.RECEIVED_OPEN);
+
+export const leavedOpen = createAction(ActionTypes.LEAVED_OPEN);

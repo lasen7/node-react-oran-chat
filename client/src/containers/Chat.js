@@ -27,7 +27,7 @@ class Chat extends Component {
     return re.test(params.ran);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const {socket} = this.props;
 
     // check username
@@ -58,15 +58,43 @@ class Chat extends Component {
       socket.on(msgTypes.LEAVED_RANDOM, data => {
         this.props.ChatActions.leavedRandom(data);
       });
+    } else {
+      const {params} = this.props;
+      const roomId = params.ran;
+
+      await this.props.ChatActions.getChannelInfo({ roomId });
+
+      socket.emit(msgTypes.JOIN_OPEN, {
+        username,
+        roomId
+      })
+
+      socket.on(msgTypes.JOINED_OPEN, data => {
+        this.props.ChatActions.joinedOpen(data);
+      });
+
+      socket.on(msgTypes.RECEIVE_OPEN, data => {
+        this.props.ChatActions.receivedOpen(data);
+      });
+
+      socket.on(msgTypes.LEAVED_OPEN, data => {
+        console.log('LEAVED_OPEN: ', data);
+
+        this.props.ChatActions.leavedOpen(data);
+      })
     }
   }
 
-  handleSendRandom = (message) => {
+  handleSendMessage = (message) => {
     const {socket} = this.props;
-    const roomId = this.props.ranChat.roomId;
+    const isRanChat = this.isRanChatPath();
     const username = this.props.username;
 
-    socket.emit(msgTypes.SEND_RANDOM, {
+    const roomId = isRanChat ? this.props.ranChat.roomId : this.props.openChat.roomId;
+
+    let _msgTypes = isRanChat ? msgTypes.SEND_RANDOM : msgTypes.SEND_OPEN;
+
+    socket.emit(_msgTypes, {
       roomId,
       username,
       message
@@ -75,18 +103,24 @@ class Chat extends Component {
 
   handleLogout = (isRejoin = true) => {
     const {socket} = this.props;
-    const roomId = this.props.ranChat.roomId;
+    const isRanChat = this.isRanChatPath();
     const username = this.props.username;
+    const roomId = isRanChat ? this.props.ranChat.roomId : this.props.openChat.roomId;
 
-    socket.emit(msgTypes.LEAVE_RANDOM, {
+    let _msgTypes = isRanChat ? msgTypes.LEAVE_RANDOM : msgTypes.LEAVE_OPEN;
+
+    socket.emit(_msgTypes, {
       roomId,
       username
     });
 
     // remove chat message and username
-    this.props.ChatActions.cleanRandom();
+    if (isRanChat) {
+      this.props.ChatActions.cleanRandom();
+    }
 
     if (isRejoin) {
+      // only ran chat
       socket.emit(msgTypes.JOIN_RANDOM, { username });
     }
   }
@@ -100,8 +134,9 @@ class Chat extends Component {
         username={this.props.username}
         isRanChat={isRanChat}
         ranChat={this.props.ranChat}
+        openChat={this.props.openChat}
         socket={socket}
-        onSendRandom={this.handleSendRandom}
+        onSendMessage={this.handleSendMessage}
         onLogout={this.handleLogout}
         />
     );
@@ -111,7 +146,8 @@ class Chat extends Component {
 Chat = connect(state => {
   return {
     username: state.user.username,
-    ranChat: state.chat.ranChat
+    ranChat: state.chat.ranChat,
+    openChat: state.chat.channel
   }
 }, dispatch => {
   return {

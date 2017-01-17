@@ -28,12 +28,7 @@ class Fab extends Component {
 
     $('#myModal').modal('hide');
 
-    this.props.onAddEvent(this.state.title)
-      .then(() => {
-        this.setState({
-          title: ''
-        });
-      });
+    this.props.onAddChannel(this.state.title);
   }
 
   handleChange = (e) => {

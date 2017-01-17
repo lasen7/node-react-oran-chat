@@ -5,15 +5,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import { browserHistory } from 'react-router';
+
 import * as chat from 'actions/chat';
 
-// import io from 'socket.io-client';
 import msgTypes from 'services/msgTypes';
 
 import { Tab, RanChat, OpenChatList } from 'components';
-
-// automatically connect
-// const socket = io('http://localhost:3000');
 
 class Lobby extends Component {
 
@@ -29,10 +27,12 @@ class Lobby extends Component {
 
   handleAddChannel = async (title) => {
     const {socket} = this.props;
-    
+
     const result = await this.props.ChatActions.addChannel({ title });
 
     socket.emit(msgTypes.ADD_CHANNEL, result.value.data);
+
+    browserHistory.push('/chat/' + result.value.data._id);
   }
 
   render() {
@@ -43,7 +43,7 @@ class Lobby extends Component {
     return (
       <div>
         <Tab isRanChat={isRanChat} />
-        {isRanChat ? <RanChat /> : <OpenChatList channel={channel} onAddEvent={this.handleAddChannel} />}
+        {isRanChat ? <RanChat /> : <OpenChatList channel={channel} onAddChannel={this.handleAddChannel} />}
       </div>
     );
   }

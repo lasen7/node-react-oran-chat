@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Link } from 'react-router';
+
 import './OpenChatInfo.css';
 
 const OpenChatInfo = ({data}) => {
@@ -11,7 +13,9 @@ const OpenChatInfo = ({data}) => {
           <div id="openChat-user">그룹채팅 15명</div>
         </div>
         <div id="openChat-join">
-          <a href="#" className="btn btn-default">참여하기</a>
+          <Link
+            className="btn btn-default"
+            to={`/chat/${data._id}`}>참여하기</Link>
         </div>
       </div>
     </div >

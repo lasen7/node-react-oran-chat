@@ -12,11 +12,19 @@ const initialState = {
   openChat: {
     list: []
   },
+  channel: {
+    title: '',
+    roomId: '',
+    messages: []
+  },
   requests: {
-    openChatList: {
+    getChannel: {
       ...rs.request
     },
-    openChatAdd: {
+    addChannel: {
+      ...rs.request
+    },
+    getChannelInfo: {
       ...rs.request
     }
   }
@@ -74,7 +82,7 @@ export default function user(state = initialState, action) {
         ...state,
         requests: {
           ...state.requests,
-          openChatList: {
+          getChannel: {
             ...rs.pending
           }
         }
@@ -88,7 +96,7 @@ export default function user(state = initialState, action) {
         },
         requests: {
           ...state.requests,
-          openChatList: {
+          getChannel: {
             ...rs.fulfilled
           }
         }
@@ -98,7 +106,7 @@ export default function user(state = initialState, action) {
         ...state,
         requests: {
           ...state.requests,
-          openChatList: {
+          getChannel: {
             ...rs.rejected,
             error: payload
           }
@@ -109,7 +117,7 @@ export default function user(state = initialState, action) {
         ...state,
         requests: {
           ...state.requests,
-          openChatAdd: {
+          addChannel: {
             ...rs.pending
           }
         }
@@ -126,7 +134,7 @@ export default function user(state = initialState, action) {
         },
         requests: {
           ...state.requests,
-          openChatAdd: {
+          addChannel: {
             ...rs.fulfilled
           }
         }
@@ -136,7 +144,7 @@ export default function user(state = initialState, action) {
         ...state,
         requests: {
           ...state.requests,
-          openChatAdd: {
+          addChannel: {
             ...rs.rejected,
             error: payload
           }
@@ -150,6 +158,79 @@ export default function user(state = initialState, action) {
           list: [
             ...state.openChat.list,
             payload
+          ]
+        }
+      }
+    case ActionTypes.GET_CHANNEL_INFO + '_PENDING':
+      return {
+        ...state,
+        requests: {
+          ...state.requests,
+          getChannelInfo: {
+            ...rs.pending
+          }
+        }
+      }
+    case ActionTypes.GET_CHANNEL_INFO + '_FULFILLED':
+      return {
+        ...state,
+        channel: {
+          ...state.channel,
+          title: payload.data.title
+        },
+        requests: {
+          ...state.requests,
+          getChannelInfo: {
+            ...rs.fulfilled
+          }
+        }
+      }
+    case ActionTypes.GET_CHANNEL_INFO + '_REJECTED':
+      return {
+        ...state,
+        requests: {
+          ...state.requests,
+          getChannelInfo: {
+            ...rs.rejected,
+            error: payload
+          }
+        }
+      }
+    case ActionTypes.JOINED_OPEN:
+      const welcomeMsg = payload.username + '님이 입장하였습니다';
+
+      return {
+        ...state,
+        channel: {
+          ...state.channel,
+          messages: [
+            ...state.channel.messages,
+            { message: welcomeMsg }
+          ],
+          roomId: payload.roomId
+        }
+      }
+    case ActionTypes.RECEIVED_OPEN:
+      return {
+        ...state,
+        channel: {
+          ...state.channel,
+          messages: [
+            ...state.channel.messages,
+            payload
+          ]
+        }
+      }
+    case ActionTypes.LEAVED_OPEN:
+      const leaveMsg = payload.username + '님이 퇴장하였습니다';
+
+      return {
+        ...state,
+        channel: {
+          ...state.channel,
+          messages: [
+            ...state.channel.messages,
+            { message: leaveMsg }
           ]
         }
       }

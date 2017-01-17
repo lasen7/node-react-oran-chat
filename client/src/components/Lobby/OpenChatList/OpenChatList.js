@@ -4,7 +4,7 @@ import { OpenChatInfo, Fab } from 'components';
 
 import './OpenChatList.css';
 
-const OpenChatList = ({channel, onAddEvent}) => {
+const OpenChatList = ({channel, onAddChannel}) => {
   const mapToChannel = channel.map((data, index) => {
     return (
       <OpenChatInfo
@@ -17,7 +17,7 @@ const OpenChatList = ({channel, onAddEvent}) => {
   return (
     <div className="container openChatList">
       {mapToChannel}
-      <Fab onAddEvent={onAddEvent} />
+      <Fab onAddChannel={onAddChannel} />
     </div>
   );
 };

@@ -18,10 +18,10 @@ class Message extends Component {
       background: '#e0e0e0'
     };
 
-    const mapToData = data.map((data, index) => {
+    const mapToData = data.map((item, index) => {
       return (
-        <li key={index} style={username === data.username ? style : null}>
-          {data.username}: {data.message}
+        <li key={index} style={username === item.username ? style : null}>
+          {item.username ? `${item.username}: ${item.message}` : item.message}
         </li>
       );
     });

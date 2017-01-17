@@ -18,3 +18,12 @@ export const addChannel = ({
     }
   });
 };
+
+export const getChannelInfo = ({
+  roomId
+}) => {
+  return request({
+    url: '/api/openchat/' + roomId,
+    method: 'get'
+  });
+};

@@ -21,7 +21,7 @@ class Write extends Component {
       return;
     }
 
-    this.props.onSendRandom(this.state.message);
+    this.props.onSendMessage(this.state.message);
 
     // clear input
     this.setState({
