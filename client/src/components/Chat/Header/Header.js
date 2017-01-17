@@ -6,18 +6,18 @@ import './Header.css';
 
 const Header = ({username, isRanChat, ranChat, onLogout}) => {
   let text = '';
+  let name = '';
 
-  if (isRanChat && ranChat.count === 1) {
-    text = '기다리는 중...';
-  } else if (isRanChat && ranChat.count === 2) {
-    let name = '';
-    if (ranChat.user1 === username) {
-      name = ranChat.user2;
+  if (isRanChat) {
+    if (ranChat.count <= 1 && ranChat.user1 && ranChat.user2) {
+      name = username === ranChat.user1 ? ranChat.user2 : ranChat.user1;
+      text = name + '님이 나가셨습니다';
+    } else if (ranChat.count <= 1) {
+      text = '기다리는 중...';
     } else {
-      name = ranChat.user1;
+      name = username === ranChat.user1 ? ranChat.user2 : ranChat.user1;
+      text = name + '님과 대화중';
     }
-
-    text = name + '님과 대화중';
   }
 
   return (

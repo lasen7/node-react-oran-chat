@@ -40,26 +40,21 @@ class Chat extends Component {
     }
 
     if (isRanChat) {
-      /* 소켓 이벤트 */
-      socket.emit(msgTypes.JOIN_RANDOM, { username: username });
+      // join room
+      socket.emit(msgTypes.JOIN_RANDOM, { username });
 
+      // listening socket event
       socket.on(msgTypes.JOINED_RANDOM, data => {
-        console.log('JOINED_RANDOM: ', data);
-
         this.props.ChatActions.joinedRandom(data);
       });
 
       socket.on(msgTypes.RECEIVE_RANDOM, data => {
-        console.log('RECEIVE_RANDOM: ', data);
-
         this.props.ChatActions.receivedRandom(data);
       });
 
       socket.on(msgTypes.LEAVED_RANDOM, data => {
-        console.log('LEAVED_RANDOM: ', data);
-
         this.props.ChatActions.leavedRandom(data);
-      });      
+      });
     }
   }
 
@@ -76,10 +71,17 @@ class Chat extends Component {
 
   handleLogout = () => {
     const roomId = this.props.ranChat.roomId;
+    const username = this.props.username;
 
     socket.emit(msgTypes.LEAVE_RANDOM, {
-      roomId
+      roomId,
+      username
     });
+
+    // remove chat message and username
+    this.props.ChatActions.cleanRandom();
+
+    socket.emit(msgTypes.JOIN_RANDOM, { username });
   }
 
   render() {

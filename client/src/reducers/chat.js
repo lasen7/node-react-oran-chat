@@ -48,6 +48,18 @@ export default function user(state = initialState, action) {
           count: nextCount
         }
       }
+    case ActionTypes.CLEAN_RANDOM:
+      return {
+        ...state,
+        ranChat: {
+          ...state.ranChat,
+          roomId: '',
+          user1: '',
+          user2: '',
+          count: 0,
+          messages: []
+        }
+      }
     default:
       return state;
   }

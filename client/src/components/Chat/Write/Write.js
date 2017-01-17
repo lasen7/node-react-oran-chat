@@ -17,6 +17,10 @@ class Write extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
+    if (!this.state.message) {
+      return;
+    }
+
     this.props.onSendRandom(this.state.message);
 
     // clear input
@@ -35,12 +39,12 @@ class Write extends Component {
               type="text"
               className="form-control fix-height"
               value={this.state.message}
-              disabled={this.props.count === 1 ? true : false}
+              disabled={this.props.count <= 1 ? true : false}
               onChange={this.handleChange} />
             <button
               type="submit"
               className=" btn btn-primary fix-height"
-              disabled={this.props.count === 1 ? "disabled" : null}
+              disabled={this.props.count <= 1 ? "disabled" : null}
               onClick={this.handleSubmit}>보내기</button>
           </form>
         </div>
