@@ -46,3 +46,5 @@ export const joinedOpen = createAction(ActionTypes.JOINED_OPEN);
 export const receivedOpen = createAction(ActionTypes.RECEIVED_OPEN);
 
 export const leavedOpen = createAction(ActionTypes.LEAVED_OPEN);
+
+export const getUserCount = createAction(ActionTypes.GET_USER_COUNT);

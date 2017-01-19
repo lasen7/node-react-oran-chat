@@ -4,13 +4,13 @@ import { Link } from 'react-router';
 
 import './OpenChatInfo.css';
 
-const OpenChatInfo = ({data}) => {
+const OpenChatInfo = ({data, userCount}) => {
   return (
     <div className="card">
       <div className="row">
         <div className="col-xs-9">
           <div id="openChat-room" className="text-overflow">{data.title}</div>
-          <div id="openChat-user">그룹채팅 15명</div>
+          <div id="openChat-user">{`그룹채팅 ${userCount}명`}</div>
         </div>
         <div id="openChat-join">
           <Link

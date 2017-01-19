@@ -23,6 +23,21 @@ class Lobby extends Component {
     socket.on(msgTypes.ADDED_CHANNEL, data => {
       this.props.ChatActions.addedChannel(data);
     });
+
+    socket.on(msgTypes.GET_USER_COUNT, data => {
+      this.props.ChatActions.getUserCount(data);
+    });
+
+    const getUserCountLoop = () => {
+      this.getUserCount(socket);
+      this.userCountTimeoutId = setTimeout(getUserCountLoop, 5000);
+    };
+
+    getUserCountLoop();
+  }
+
+  getUserCount = (socket) => {
+    socket.emit(msgTypes.GET_USER_COUNT);
   }
 
   handleAddChannel = async (title) => {
@@ -36,22 +51,31 @@ class Lobby extends Component {
   }
 
   render() {
-    const {params, channel} = this.props;
+    const {params, channel, userCount} = this.props;
     const re = /ran/;
     const isRanChat = re.test(params.ran);
 
     return (
       <div>
         <Tab isRanChat={isRanChat} />
-        {isRanChat ? <RanChat /> : <OpenChatList channel={channel} onAddChannel={this.handleAddChannel} />}
+        {isRanChat ? <RanChat /> :
+          <OpenChatList
+            channel={channel}
+            userCount={userCount}
+            onAddChannel={this.handleAddChannel} />}
       </div>
     );
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.userCountTimeoutId);
   }
 }
 
 Lobby = connect(state => {
   return {
-    channel: state.chat.openChat.list
+    channel: state.chat.openChat.list,
+    userCount: state.chat.openChat.userCount
   }
 }, dispatch => {
   return {

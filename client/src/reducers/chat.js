@@ -10,7 +10,8 @@ const initialState = {
     messages: []
   },
   openChat: {
-    list: []
+    list: [],
+    userCount: {}
   },
   channel: {
     title: '',
@@ -232,6 +233,14 @@ export default function user(state = initialState, action) {
             ...state.channel.messages,
             { message: leaveMsg }
           ]
+        }
+      }
+    case ActionTypes.GET_USER_COUNT:
+      return {
+        ...state,
+        openChat: {
+          ...state.openChat,
+          userCount: payload
         }
       }
     default:

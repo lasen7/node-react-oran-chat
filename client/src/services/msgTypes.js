@@ -19,6 +19,8 @@ const msgTypes = {
 
   ADD_CHANNEL: 'ADD_CHANNEL',
   ADDED_CHANNEL: 'ADDED_CHANNEL',
+
+  GET_USER_COUNT: 'GET_USER_COUNT'
 };
 
 export default msgTypes;
