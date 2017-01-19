@@ -1,3 +1,4 @@
+import { channel } from './sockets';
 import msgTypes from './msgTypes';
 
 /**
@@ -8,6 +9,9 @@ export const joinOpen = (io, socket) => {
     console.log('======== JOIN_OPEN ========');
 
     socket.join(data.roomId);
+
+    channel[data.roomId] = channel[data.roomId] === undefined ? 1 : channel[data.roomId] + 1;
+    socket.openRoomId = data.roomId;
 
     io.in(data.roomId).emit(msgTypes.JOINED_OPEN, data);
   });
@@ -29,11 +33,14 @@ export const sendOpen = (io, socket) => {
  */
 export const leaveOpen = (io, socket) => {
   socket.on(msgTypes.LEAVE_OPEN, data => {
-    console.log('======== LEAVE_OPEN ========');    
+    console.log('======== LEAVE_OPEN ========');
 
     io.in(data.roomId).emit(msgTypes.LEAVED_OPEN, data);
 
     socket.leave(data.roomId);
+
+    // channel[data.roomId] -= 1;
+    // delete socket.openRoomId;
   });
 };
 
@@ -42,5 +49,14 @@ export const addChannel = (socket) => {
     console.log('======== LEAVE_OPEN ========');
 
     socket.broadcast.emit(msgTypes.ADDED_CHANNEL, data);
+  });
+};
+
+export const getUserCount = (io, socket) => {
+  socket.on(msgTypes.GET_USER_COUNT, data => {
+    console.log('======== GET_USER_COUNT ========');
+
+    //io.emit(msgTypes.GET_USER_COUNT, channel);
+    socket.emit(msgTypes.GET_USER_COUNT, channel);
   });
 };
