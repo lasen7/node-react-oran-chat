@@ -1,5 +1,4 @@
 import ActionTypes from 'actions/ActionTypes';
-//import * as rs from 'utils/requestStatus';
 
 const initialState = {
   username: ''

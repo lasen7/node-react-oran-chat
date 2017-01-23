@@ -1,4 +1,3 @@
-/* global io, socket */
 import React, { Component } from 'react';
 
 import { Wrapper } from 'components';
@@ -8,7 +7,6 @@ import { bindActionCreators } from 'redux';
 
 import { browserHistory } from 'react-router';
 
-// import io from 'socket.io-client';
 import msgTypes from 'services/msgTypes';
 
 import * as user from 'actions/user';
@@ -16,15 +14,20 @@ import * as chat from 'actions/chat';
 
 import storage from 'utils/storage';
 
-// automatically connect
-// const socket = io('http://localhost:3000');
-
 class Chat extends Component {
 
   isRanChatPath = () => {
     const {params} = this.props;
     const re = /ran/;
     return re.test(params.ran);
+  }
+
+  backEvent = (e) => {
+    e.preventDefault();
+
+    this.handleLogout(false);
+
+    location.reload(false);
   }
 
   async componentDidMount() {
@@ -41,6 +44,8 @@ class Chat extends Component {
       browserHistory.push('/');
       return;
     }
+
+    window.onpopstate = this.backEvent;
 
     if (isRanChat) {
       // join room
