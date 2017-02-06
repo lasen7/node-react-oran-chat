@@ -17,5 +17,6 @@
 - redux-actions
 - react-router
 - redux-promise-middleware
+- Bootstrap
 
 데모: [here](http://52.79.152.107:3001/)
